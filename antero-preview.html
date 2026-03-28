@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antero Construtora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #D0222A;
+      --red-hover: #b01c23;
+      --black: #1d1d1f;
+      --gray-1: #f5f5f7;
+      --gray-2: #e8e8ed;
+      --gray-3: #6e6e73;
+      --gray-4: #aeaeb2;
+      --white: #ffffff;
+      --radius-pill: 980px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white); color: var(--black); overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 52px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-circle {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--red); display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 900; color: white; letter-spacing: -0.03em;
+    }
+    .nav-logo-name { font-size: 15px; font-weight: 700; color: var(--black); letter-spacing: -0.02em; }
+    .nav-links { display: flex; gap: 28px; list-style: none; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-links a { color: var(--black); font-size: 13px; text-decoration: none; opacity: 0.75; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      background: var(--red); color: var(--white);
+      padding: 8px 20px; border-radius: var(--radius-pill);
+      font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--red-hover); transform: scale(1.03); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+      background: var(--white); position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(208,34,42,0.06) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(208,34,42,0.09); color: var(--red);
+      font-size: 13px; font-weight: 600; padding: 6px 16px;
+      border-radius: var(--radius-pill); margin-bottom: 28px;
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-eyebrow::before { content: '●'; font-size: 8px; }
+    .hero-title {
+      font-size: clamp(48px, 8vw, 92px); font-weight: 800;
+      letter-spacing: -0.04em; line-height: 1.02; color: var(--black);
+      max-width: 800px; margin-bottom: 24px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero-title .red { color: var(--red); }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 20px); font-weight: 300; color: var(--gray-3);
+      max-width: 520px; line-height: 1.65; margin-bottom: 44px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 14px; align-items: center; justify-content: center;
+      flex-wrap: wrap; animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn-red {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--red); color: var(--white);
+      padding: 15px 32px; border-radius: var(--radius-pill);
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      box-shadow: 0 4px 24px rgba(208,34,42,0.3);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-red:hover { background: var(--red-hover); transform: scale(1.03); box-shadow: 0 8px 32px rgba(208,34,42,0.4); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: transparent; color: var(--red);
+      padding: 15px 32px; border-radius: var(--radius-pill);
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      border: 1.5px solid rgba(208,34,42,0.3); transition: all 0.2s;
+    }
+    .btn-ghost:hover { background: rgba(208,34,42,0.06); border-color: var(--red); transform: scale(1.03); }
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      animation: fadeUp 0.7s 0.6s ease both;
+    }
+    .scroll-hint span { font-size: 11px; color: var(--gray-4); letter-spacing: 0.05em; }
+    .scroll-dot { width: 5px; height: 5px; background: var(--gray-4); border-radius: 50%; animation: bounce 1.6s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0);opacity:0.4} 50%{transform:translateY(6px);opacity:1} }
+
+    /* STATS */
+    .stats { background: var(--gray-1); padding: 64px 24px; }
+    .stats-inner {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 2px;
+      background: var(--gray-2); border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .stat-cell { background: var(--white); padding: 40px 20px; text-align: center; }
+    .stat-num { font-size: 46px; font-weight: 800; letter-spacing: -0.03em; color: var(--red); line-height: 1; }
+    .stat-lbl { font-size: 13px; color: var(--gray-3); margin-top: 8px; font-weight: 500; }
+
+    /* SECTION */
+    .section { padding: 100px 24px; max-width: 1080px; margin: 0 auto; }
+    .eyebrow { font-size: 12px; font-weight: 700; color: var(--red); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+    .section-h { font-size: clamp(34px, 5vw, 56px); font-weight: 800; letter-spacing: -0.035em; line-height: 1.05; color: #3a3a3c; margin-bottom: 20px; }
+    .section-sub { font-size: 17px; color: var(--gray-3); line-height: 1.65; max-width: 520px; }
+
+    /* ABOUT */
+    .about-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .about-card {
+      background: var(--gray-1); border-radius: var(--radius-lg); padding: 44px;
+      position: relative; overflow: hidden;
+    }
+    .about-card::before {
+      content: ''; position: absolute; top: -50px; right: -50px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(208,34,42,0.1) 0%, transparent 70%);
+    }
+    .about-card p { font-size: 15px; line-height: 1.8; color: var(--gray-3); }
+    .about-card p + p { margin-top: 16px; }
+    .about-card strong { color: var(--black); font-weight: 600; }
+    .pills { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 28px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--white); border: 1px solid var(--gray-2);
+      padding: 7px 14px; border-radius: var(--radius-pill);
+      font-size: 13px; font-weight: 500; color: var(--black);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    /* SERVICES */
+    #servicos { background: var(--black); }
+    .svc-wrap { max-width: 1080px; margin: 0 auto; padding: 100px 24px; }
+    .svc-wrap .section-h { color: var(--white); }
+    .svc-wrap .eyebrow { color: #ff6b6b; }
+    .svc-grid {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 2px; margin-top: 56px; border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .svc-card {
+      background: #1d1d1f; padding: 48px 44px; position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .svc-card:hover { background: #2a2a2c; }
+    .svc-card:nth-child(1){border-radius:var(--radius-lg) 0 0 0}
+    .svc-card:nth-child(2){border-radius:0 var(--radius-lg) 0 0}
+    .svc-card:nth-child(3){border-radius:0 0 0 var(--radius-lg)}
+    .svc-card:nth-child(4){border-radius:0 0 var(--radius-lg) 0}
+    .svc-glow {
+      position: absolute; top: -60px; right: -60px; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(208,34,42,0.15) 0%, transparent 70%);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .svc-card:hover .svc-glow { opacity: 1; }
+    .svc-num { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--red); margin-bottom: 18px; text-transform: uppercase; }
+    .svc-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+    .svc-title { font-size: 21px; font-weight: 700; color: var(--white); letter-spacing: -0.02em; margin-bottom: 10px; }
+    .svc-desc { font-size: 14px; color: #86868b; line-height: 1.7; }
+    .svc-link { display: inline-flex; align-items: center; gap: 6px; color: var(--red); font-size: 13px; font-weight: 600; margin-top: 22px; text-decoration: none; transition: gap 0.2s; }
+    .svc-card:hover .svc-link { gap: 10px; }
+
+    /* WHY */
+    .why-header { text-align: center; max-width: 520px; margin: 0 auto 56px; }
+    .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+    .why-card {
+      background: var(--gray-1); border-radius: var(--radius-lg); padding: 32px;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .why-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.09); }
+    .why-icon { width: 46px; height: 46px; background: rgba(208,34,42,0.1); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 18px; }
+    .why-title { font-size: 16px; font-weight: 700; color: var(--black); letter-spacing: -0.02em; margin-bottom: 9px; }
+    .why-desc { font-size: 14px; color: var(--gray-3); line-height: 1.65; }
+
+    /* CTA */
+    .cta-band {
+      margin: 0 24px 100px; background: var(--red); border-radius: var(--radius-lg);
+      padding: 72px 56px; display: flex; align-items: center; justify-content: space-between;
+      gap: 36px; overflow: hidden; position: relative;
+    }
+    .cta-band::before {
+      content: ''; position: absolute; top: -80px; right: -80px;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
+    }
+    .cta-text { font-size: clamp(26px, 4vw, 42px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--white); position: relative; z-index: 1; }
+    .cta-sub { font-size: 15px; color: rgba(255,255,255,0.75); margin-top: 8px; }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--white); color: var(--red);
+      padding: 16px 32px; border-radius: var(--radius-pill);
+      font-size: 15px; font-weight: 700; text-decoration: none;
+      white-space: nowrap; position: relative; z-index: 1;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-white:hover { transform: scale(1.04); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+
+    /* CONTACT */
+    #contato { background: var(--gray-1); }
+    .contact-wrap { max-width: 1080px; margin: 0 auto; padding: 100px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+    .contact-cards { display: flex; flex-direction: column; gap: 12px; }
+    .contact-card {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--white); border-radius: var(--radius-md); padding: 18px 20px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06); transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .contact-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .contact-icon { width: 42px; height: 42px; min-width: 42px; background: rgba(208,34,42,0.08); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .c-lbl { font-size: 10px; font-weight: 700; color: var(--gray-3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 3px; }
+    .c-val { font-size: 14px; font-weight: 600; color: var(--black); }
+    .c-val a { color: var(--black); text-decoration: none; }
+    .c-val a:hover { color: var(--red); }
+    .contact-form { display: flex; flex-direction: column; gap: 13px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 11px; font-weight: 700; color: var(--gray-3); letter-spacing: 0.05em; text-transform: uppercase; }
+    .form-control {
+      background: var(--white); border: 1.5px solid var(--gray-2);
+      border-radius: var(--radius-sm); padding: 12px 15px;
+      font-family: inherit; font-size: 15px; color: var(--black);
+      outline: none; resize: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(208,34,42,0.1); }
+    .form-control::placeholder { color: var(--gray-4); }
+    textarea.form-control { height: 110px; }
+    .btn-submit {
+      background: var(--red); color: var(--white); border: none;
+      padding: 15px 30px; border-radius: var(--radius-pill);
+      font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(208,34,42,0.28);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-submit:hover { background: var(--red-hover); transform: scale(1.02); box-shadow: 0 8px 30px rgba(208,34,42,0.4); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black); padding: 44px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .footer-circle { width: 32px; height: 32px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; color: white; }
+    .footer-name { font-size: 14px; font-weight: 700; color: var(--white); letter-spacing: -0.02em; }
+    .footer-copy { font-size: 13px; color: #6e6e73; }
+    .footer-ig {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7);
+      padding: 8px 16px; border-radius: var(--radius-pill);
+      font-size: 13px; font-weight: 500; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .footer-ig:hover { background: var(--red); color: var(--white); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* MOBILE */
+    @media(max-width:860px){
+      .nav-links{display:none}
+      .stats-inner{grid-template-columns:repeat(2,1fr)}
+      .about-wrap{grid-template-columns:1fr;gap:36px}
+      .svc-grid{grid-template-columns:1fr}
+      .svc-card:nth-child(1){border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+      .svc-card:nth-child(2){border-radius:0}
+      .svc-card:nth-child(3){border-radius:0}
+      .svc-card:nth-child(4){border-radius:0 0 var(--radius-lg) var(--radius-lg)}
+      .why-grid{grid-template-columns:1fr}
+      .cta-band{flex-direction:column;text-align:center;padding:52px 28px;margin:0 16px 72px}
+      .contact-wrap{grid-template-columns:1fr;gap:40px;padding:72px 20px}
+      .form-row{grid-template-columns:1fr}
+      footer{justify-content:center;text-align:center}
+      .section{padding:72px 20px}
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-circle">AC</div>
+      <span class="nav-logo-name">Antero Construtora</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#diferenciais">Diferenciais</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <a class="nav-cta" href="https://wa.me/5588996645052">Orçamento grátis</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Construtora &amp; Incorporadora — Crato, Ceará</div>
+    <h1 class="hero-title">Seu sonho,<br><span class="red">nossa entrega.</span></h1>
+    <p class="hero-sub">Execução de obras, venda de imóveis próprios e reformas comerciais. A Antero realiza cada projeto com excelência, do início ao acabamento.</p>
+    <div class="hero-actions">
+      <a class="btn-red" href="https://wa.me/5588996645052">Solicitar orçamento →</a>
+      <a class="btn-ghost" href="#servicos">Ver serviços</a>
+    </div>
+    <div class="scroll-hint">
+      <span>Rolar</span>
+      <div class="scroll-dot"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stats-inner">
+      <div class="stat-cell"><div class="stat-num" data-target="7" data-suffix="K+">0K+</div><div class="stat-lbl">Seguidores Instagram</div></div>
+      <div class="stat-cell"><div class="stat-num" data-target="37" data-suffix="">0</div><div class="stat-lbl">Projetos publicados</div></div>
+      <div class="stat-cell"><div class="stat-num" data-target="100" data-suffix="%">0%</div><div class="stat-lbl">Comprometimento</div></div>
+      <div class="stat-cell"><div class="stat-num" data-target="4" data-suffix="">0</div><div class="stat-lbl">Áreas de atuação</div></div>
+    </div>
+  </div>
+
+  <!-- SOBRE -->
+  <div id="sobre" class="section">
+    <div class="about-wrap">
+      <div class="reveal">
+        <div class="eyebrow">Quem somos</div>
+        <h2 class="section-h"><span style="color:var(--red)">Uma construtora</span> feita de <span style="color:var(--red)">resultados.</span></h2>
+        <p class="section-sub">Mais de 7 mil pessoas já confiam na Antero. Um time apaixonado que garante cada entrega no Cariri cearense e região.</p>
+        <div style="margin-top:32px">
+          <a class="btn-red" href="https://wa.me/5588996645052" style="font-size:14px;padding:12px 26px">Falar conosco →</a>
+        </div>
+      </div>
+      <div class="about-card reveal" style="transition-delay:0.12s">
+        <p>A <strong>Antero Construtora</strong> é uma construtora e incorporadora sediada em <strong>Crato, Ceará</strong>, atuando em toda a região do Cariri. Com mais de 7 mil seguidores e dezenas de projetos entregues, somos referência em qualidade e confiança.</p>
+        <p>Atuamos em execução de obras, venda de imóveis próprios e reformas comerciais — sempre com um time especializado que cuida de cada detalhe para <strong>realizar o seu sonho sem preocupações.</strong></p>
+        <div class="pills">
+          <span class="pill">🏗️ Execução precisa</span>
+          <span class="pill">⏱️ Prazo garantido</span>
+          <span class="pill">🛡️ Total segurança</span>
+          <span class="pill">💎 Alta qualidade</span>
+          <span class="pill">🤝 Transparência</span>
+          <span class="pill">📐 Sob medida</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos">
+    <div class="svc-wrap">
+      <div class="reveal">
+        <div class="eyebrow">O que fazemos</div>
+        <h2 class="section-h">Nossos serviços.</h2>
+        <p class="section-sub" style="color:#86868b">Soluções completas do projeto ao acabamento final.</p>
+      </div>
+      <div class="svc-grid reveal" style="transition-delay:0.1s">
+        <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">01</div><span class="svc-icon">🏗️</span><div class="svc-title">Execução de Obras</div><p class="svc-desc">Construímos do zero com rigor técnico, materiais de qualidade e equipe especializada. Do projeto à entrega das chaves, cada detalhe sob controle.</p><a class="svc-link" href="https://wa.me/5588996645052">Saiba mais →</a></div>
+        <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">02</div><span class="svc-icon">🏡</span><div class="svc-title">Venda de Imóveis Próprios</div><p class="svc-desc">Desenvolvemos e comercializamos imóveis residenciais com alto padrão. Invista em um imóvel Antero e garanta qualidade e valorização.</p><a class="svc-link" href="https://wa.me/5588996645052">Saiba mais →</a></div>
+        <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">03</div><span class="svc-icon">🏢</span><div class="svc-title">Reformas de Salas Comerciais</div><p class="svc-desc">Transformamos espaços comerciais com rapidez e precisão. Reformas que valorizam o seu negócio com mínima interrupção das atividades.</p><a class="svc-link" href="https://wa.me/5588996645052">Saiba mais →</a></div>
+        <div class="svc-card"><div class="svc-glow"></div><div class="svc-num">04</div><span class="svc-icon">🏙️</span><div class="svc-title">Incorporação Imobiliária</div><p class="svc-desc">Empreendimentos com visão estratégica — da aquisição do terreno ao lançamento e entrega do imóvel no Cariri cearense.</p><a class="svc-link" href="https://wa.me/5588996645052">Saiba mais →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAIS -->
+  <div id="diferenciais" class="section">
+    <div class="why-header reveal">
+      <div class="eyebrow">Por que nos escolher</div>
+      <h2 class="section-h"><span style="color:var(--red)">Nossos</span> diferenciais.</h2>
+      <p class="section-sub" style="margin:0 auto">O que nos torna a escolha certa para o seu projeto.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal" style="transition-delay:0.0s"><div class="why-icon">👷</div><div class="why-title">Equipe Especializada</div><p class="why-desc">Engenheiros, arquitetos e mestres de obra experientes trabalhando em sinergia para garantir o melhor resultado.</p></div>
+      <div class="why-card reveal" style="transition-delay:0.08s"><div class="why-icon">🔬</div><div class="why-title">Tecnologia de Ponta</div><p class="why-desc">Técnicas modernas e materiais de alta performance para durabilidade e eficiência máxima em cada obra.</p></div>
+      <div class="why-card reveal" style="transition-delay:0.16s"><div class="why-icon">📊</div><div class="why-title">Gestão Transparente</div><p class="why-desc">Acompanhamento em tempo real com relatórios e comunicação clara em todas as etapas da sua obra.</p></div>
+      <div class="why-card reveal" style="transition-delay:0.24s"><div class="why-icon">⏰</div><div class="why-title">Prazos Cumpridos</div><p class="why-desc">Planejamento rigoroso que garante a entrega no prazo acordado, sem surpresas ou atrasos.</p></div>
+      <div class="why-card reveal" style="transition-delay:0.32s"><div class="why-icon">💰</div><div class="why-title">Preço Justo</div><p class="why-desc">Orçamentos detalhados e competitivos, sem custos ocultos. Qualidade que cabe no seu planejamento.</p></div>
+      <div class="why-card reveal" style="transition-delay:0.40s"><div class="why-icon">🛡️</div><div class="why-title">Pós-Obra Garantido</div><p class="why-desc">Suporte e garantia após a entrega. Continuamos presentes mesmo depois de concluído o projeto.</p></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-band reveal">
+    <div>
+      <div class="cta-text">Pensando em construir<br>em 2025?</div>
+      <p class="cta-sub">Deixe a execução por nossa conta e realize seu sonho sem preocupações.</p>
+    </div>
+    <a class="btn-white" href="https://wa.me/5588996645052">💬 Falar no WhatsApp</a>
+  </div>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="contact-wrap">
+      <div class="reveal">
+        <div class="eyebrow">Entre em contato</div>
+        <h2 class="section-h">Fale com<br><span style="color:var(--red)">a Antero.</span></h2>
+        <p class="section-sub" style="margin-bottom:28px">Nossa equipe está pronta para transformar seu projeto em realidade.</p>
+        <div class="contact-cards">
+          <div class="contact-card"><div class="contact-icon">📱</div><div><div class="c-lbl">WhatsApp</div><div class="c-val"><a href="https://wa.me/5588996645052">(88) 9 9664-5052</a></div></div></div>
+          <div class="contact-card"><div class="contact-icon">🌐</div><div><div class="c-lbl">Site</div><div class="c-val"><a href="https://www.anteroconstrutora.com" target="_blank">www.anteroconstrutora.com</a></div></div></div>
+          <div class="contact-card"><div class="contact-icon">📍</div><div><div class="c-lbl">Endereço</div><div class="c-val">Av. Duque de Caxias, 714, Sala 301 — Centro, Crato/CE</div></div></div>
+          <div class="contact-card"><div class="contact-icon">📸</div><div><div class="c-lbl">Instagram</div><div class="c-val"><a href="https://instagram.com/anteroconstrutora" target="_blank">@anteroconstrutora</a></div></div></div>
+        </div>
+      </div>
+      <div class="contact-form reveal" style="transition-delay:0.12s">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Nome</label><input class="form-control" type="text" placeholder="Seu nome completo" /></div>
+          <div class="form-group"><label class="form-label">Telefone</label><input class="form-control" type="tel" placeholder="(88) 9 0000-0000" /></div>
+        </div>
+        <div class="form-group"><label class="form-label">E-mail</label><input class="form-control" type="email" placeholder="seu@email.com" /></div>
+        <div class="form-group">
+          <label class="form-label">Tipo de Serviço</label>
+          <select class="form-control" style="appearance:none;cursor:pointer">
+            <option value="" disabled selected>Selecione um serviço</option>
+            <option>Execução de Obras</option>
+            <option>Venda de Imóveis Próprios</option>
+            <option>Reformas de Salas Comerciais</option>
+            <option>Incorporação Imobiliária</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Mensagem</label><textarea class="form-control" placeholder="Descreva seu projeto ou tire suas dúvidas..."></textarea></div>
+        <button class="btn-submit">Enviar mensagem →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a class="footer-brand" href="#">
+      <div class="footer-circle">AC</div>
+      <span class="footer-name">Antero Construtora</span>
+    </a>
+    <span class="footer-copy">© 2025 Antero Construtora. Todos os direitos reservados.</span>
+    <a class="footer-ig" href="https://instagram.com/anteroconstrutora" target="_blank">📸 @anteroconstrutora</a>
+  </footer>
+
+  <script>
+    // Reveal
+    const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Counters
+    const so = new IntersectionObserver(e => {
+      if(!e[0].isIntersecting) return;
+      document.querySelectorAll('.stat-num').forEach(el => {
+        const t = parseInt(el.dataset.target), s = el.dataset.suffix;
+        let c = 0; const step = Math.max(1, Math.ceil(t/60));
+        const timer = setInterval(() => { c = Math.min(c+step, t); el.textContent = c+s; if(c>=t) clearInterval(timer); }, 22);
+      });
+      so.disconnect();
+    });
+    so.observe(document.querySelector('.stats'));
+
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.background = window.scrollY > 40 ? 'rgba(255,255,255,0.96)' : 'rgba(255,255,255,0.88)';
+    });
+  </script>
+</body>
+</html>
